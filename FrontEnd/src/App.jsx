@@ -1,11 +1,14 @@
 import React from "react";
 import{Routes,Route} from "react-router-dom"
+
 import Header from "./components/Header";
+import Footer from "./components/Footer"
+
+import Signup from "./pages/SignUp";
+import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import MyProfile from "./pages/MyProfile";
-import Login from "./pages/Login";
 import Artist from "./pages/Artist";
-import Footer from "./components/Footer"
 import Events from "./pages/Events"
 
 const App = () => {
@@ -17,6 +20,7 @@ const App = () => {
         <Route path="/" element = {<HomePage/>}/>
         <Route path="/myprofile" element = {<MyProfile/>}/>
         <Route path="/login" element = {<Login/>}/>
+        <Route path="/signup" element = {<Signup/>}/>
         <Route path="/artist" element = {<Artist/>}/>
         <Route path="/events" element = {<Events/>}/>
         </Routes>
