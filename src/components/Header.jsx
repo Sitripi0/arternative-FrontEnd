@@ -18,7 +18,7 @@ const Header = () => {
         <div className="lg:col-span-3 flex items-center">
           <a href="/">
             <img
-              src="/public/logo module3.png"
+              src="/logo module3.png"
               alt="ArterNative logo"
               className="h-auto w-50"
             />
