@@ -4,7 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 
 function EditPost() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { API_URL } = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -13,6 +13,8 @@ function EditPost() {
     text: "",
     typeOfPost: "",
     category: "",
+    mediaUrl: "",
+    location: "",
     date: "",
   });
 
@@ -22,8 +24,24 @@ function EditPost() {
     axios
       .get(`${API_URL}/api/posts/${id}`)
       .then((res) => {
-        const { title, text, typeOfPost, category, date } = res.data;
-        setFormData({ title, text, typeOfPost, category, date });
+        const {
+          title,
+          text,
+          typeOfPost,
+          category,
+          mediaUrl,
+          location,
+          date,
+        } = res.data;
+        setFormData({
+          title,
+          text,
+          typeOfPost,
+          category,
+          mediaUrl: mediaUrl || "",
+          location: location || "",
+          date: date ? date.split("T")[0] : "",
+        });
         setLoading(false);
       })
       .catch((err) => {
@@ -47,9 +65,8 @@ function EditPost() {
       .put(`${API_URL}/api/posts/${id}`, formData, {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
-      .then((res) => {
-        console.log("Post updated:");
-        navigate(`/api/posts/${id}`);
+      .then(() => {
+        navigate(`/posts/${id}`); // fixed navigation to post details page
       })
       .catch((err) => {
         console.error("Error updating post:", err);
@@ -59,61 +76,113 @@ function EditPost() {
   if (loading) return <p className="text-center mt-10">Loading post data...</p>;
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12">
-      <h2 className="text-2xl font-bold mb-6">Edit Post</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
+    <div className="max-w-4xl mx-auto py-12 px-6">
+      <h2 className="text-3xl font-bold mb-6">Edit Post</h2>
 
-        <textarea
-          name="text"
-          placeholder="Text"
-          value={formData.text}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          rows={6}
-          required
-        />
+      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            placeholder="Title of the post"
+          />
+        </div>
 
-        <input
-          type="text"
-          name="typeOfPost"
-          placeholder="Type of Post"
-          value={formData.typeOfPost}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Description</label>
+          <textarea
+            name="text"
+            value={formData.text}
+            onChange={handleChange}
+            required
+            rows={4}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            placeholder="Write your description..."
+          />
+        </div>
 
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Post Type</label>
+            <select
+              name="typeOfPost"
+              value={formData.typeOfPost}
+              onChange={handleChange}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            >
+              <option value="">Select</option>
+              <option value="release">Release</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
 
-        <input
-          type="date"
-          name="date"
-          value={formData.date?.split("T")[0] || ""}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Category</label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            >
+              <option value="music">Music</option>
+              <option value="visual">Visual</option>
+              <option value="esculpture">Esculpture</option>
+              <option value="performance">Performance</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
 
-        <button
-          type="submit"
-          className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded"
-        >
-          Update Post
-        </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Media URL</label>
+            <input
+              type="text"
+              name="mediaUrl"
+              value={formData.mediaUrl}
+              onChange={handleChange}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+              placeholder="www.example.com"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Location</label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+              placeholder="City, Country"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Date</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+          />
+        </div>
+
+        <div className="pt-6">
+          <button
+            type="submit"
+            className="inline-block px-6 py-2 text-white bg-amber-600 hover:bg-amber-700 rounded-md shadow-md transition"
+          >
+            Update Post
+          </button>
+        </div>
       </form>
     </div>
   );

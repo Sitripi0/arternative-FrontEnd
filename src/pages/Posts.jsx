@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { useContext } from "react";
-import DeletePost from "../components/DeletePost"
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -12,7 +10,13 @@ function Posts() {
   useEffect(() => {
     axios
       .get(`${API_URL}/api/posts`)
-      .then((res) => setPosts(res.data))
+      .then((res) => {
+        // Sort posts by date descending (newest first)
+        const sortedPosts = res.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setPosts(sortedPosts);
+      })
       .catch((err) => console.error("Error fetching posts", err));
   }, [API_URL]);
 
@@ -62,9 +66,8 @@ function Posts() {
                     to={`/api/posts/${post._id}`}
                     className="inline-block text-amber-600 hover:underline text-sm font-medium"
                   >
-                   More →
+                    More →
                   </Link>
-                
                 </div>
               </div>
             </div>
