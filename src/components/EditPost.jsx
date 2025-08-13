@@ -48,7 +48,7 @@ function EditPost() {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((res) => {
-        console.log("Post updated:", res.data);
+        console.log("Post updated:");
         navigate(`/api/posts/${id}`);
       })
       .catch((err) => {
