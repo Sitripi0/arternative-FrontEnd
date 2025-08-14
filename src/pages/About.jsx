@@ -16,7 +16,7 @@ const About = () => {
         <div className="flex flex-col items-center text-center">
           <img
             className="w-48 h-48 rounded-full mb-6 object-cover"
-            src="src/assets/logo_last_char_strict.png"
+            src="/about_logo.png"
             alt="Project Logo"
           />
           <p className="text-gray-700 max-w-xl">
