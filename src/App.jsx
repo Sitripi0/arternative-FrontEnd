@@ -14,6 +14,7 @@ import Post from "./components/PostDetails";
 import DeletePost from "./components/DeletePost";
 import EditPost from "./components/EditPost";
 import CreatePost from "./components/CreatePosts";
+import About from "./pages/About";
 
 
 
@@ -35,6 +36,9 @@ const App = () => {
         <Route path ="/posts/new" element = {<CreatePost/>}/>
         <Route path="/posts/:id/delete" element={<DeletePost />} />
         <Route path="/posts/:id/edit" element={<EditPost/>}/>
+
+        <Route path="/about" element = {<About/>}/>
+
 
         
 

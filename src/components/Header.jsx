@@ -12,7 +12,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-wrap lg:justify-start lg:flex-nowrap z-50 w-full py-7 ">
+    <header className="flex flex-wrap lg:justify-start lg:flex-nowrap z-50 w-full py-7 border-b border-gray-300 dark:border-neutral-700">
       <nav className="max-w-7xl w-full flex items-center px-4 md:px-6 lg:px-8 mx-auto">
         {/* Logo */}
         <div className="flex items-center">
@@ -20,7 +20,7 @@ const Header = () => {
             <img
               src="/logo module3.png"
               alt="ArterNative logo"
-              className="h-50 w-auto"
+              className="h-8 w-auto"
             />
           </Link>
         </div>
@@ -35,13 +35,6 @@ const Header = () => {
               Create a Post
             </Link>
           )}
-          {/* 
-          <Link
-            to="/posts"
-            className="text-sm hover:text-amber-600 transition"
-          >
-            Posts
-          </Link> */}
 
           {isLoggedIn && (
             <Link
@@ -58,13 +51,6 @@ const Header = () => {
           >
             Events
           </Link>
-
-          {/* <Link
-            to="/artist"
-            className="text-sm hover:text-amber-600 transition"
-          >
-            Artists
-          </Link> */}
 
           {isLoggedIn ? (
             <button
