@@ -2,12 +2,12 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
+import service from "../services/file-upload.service";
 
 function CreatePost() {
   const navigate = useNavigate();
   const { user, isLoggedIn, API_URL } = useContext(AuthContext);
 
-  // Get today's date in YYYY-MM-DD format for min attribute and validation
   const today = new Date().toISOString().split("T")[0];
 
   const [form, setForm] = useState({
@@ -20,15 +20,32 @@ function CreatePost() {
     date: ""
   });
 
+  // Handle text/input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ Handle file upload
+  const handleFileUpload = (e) => {
+    const uploadData = new FormData();
+    uploadData.append("imageUrl", e.target.files[0]);
+
+    service
+      .uploadImage(uploadData)
+      .then((response) => {
+        setForm((prevForm) => ({
+          ...prevForm,
+          mediaUrl: response.fileUrl, // set mediaUrl to the uploaded file's URL
+        }));
+      })
+      .catch((err) => console.log("Error uploading file:", err));
+  };
+
+  // Submit post
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate date not earlier than today
     if (form.date && form.date < today) {
       alert("Please select today's date or a future date.");
       return;
@@ -65,7 +82,7 @@ function CreatePost() {
             value={form.title}
             onChange={handleChange}
             required
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Post Title"
           />
         </div>
@@ -78,7 +95,7 @@ function CreatePost() {
             onChange={handleChange}
             required
             rows={4}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Write your description..."
           />
         </div>
@@ -90,7 +107,7 @@ function CreatePost() {
               name="typeOfPost"
               value={form.typeOfPost}
               onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             >
               <option value="">Select</option>
               <option value="release">Release</option>
@@ -104,7 +121,7 @@ function CreatePost() {
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             >
               <option value="other">Other</option>
               <option value="music">Music</option>
@@ -115,19 +132,19 @@ function CreatePost() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Media URL</label>
-            <input
-              type="text"
-              name="mediaUrl"
-              value={form.mediaUrl}
-              onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
-              placeholder="www.example.com"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+          <input
+            type="file"
+            onChange={handleFileUpload}
+            className="mt-1 block w-full text-sm text-gray-500"
+          />
+          {form.mediaUrl && (
+            <p className="text-green-600 mt-2 text-sm">✅ Image uploaded!</p>
+          )}
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Location</label>
             <input
@@ -135,22 +152,22 @@ function CreatePost() {
               name="location"
               value={form.location}
               onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
-              placeholder="City,Country"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+              placeholder="City, Country"
             />
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={form.date}
-            min={today} 
-            onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Date</label>
+            <input
+              type="date"
+              name="date"
+              value={form.date}
+              min={today}
+              onChange={handleChange}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
         </div>
 
         <div className="pt-6">
