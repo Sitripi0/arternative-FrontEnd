@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 
 import Events from "./pages/Events";
-import Posts from "./pages/Posts";
+import Posts from "./components/Posts";
 import Post from "./components/PostDetails";
 import DeletePost from "./components/DeletePost";
 import EditPost from "./components/EditPost";
@@ -28,6 +28,7 @@ const App = () => {
         <Route path="/signup" element = {<Signup/>}/>
 
         <Route path="/events" element = {<Events/>}/>
+        
         
         <Route path="/posts" element = {<Posts/>}/>
         <Route path="/api/posts/:id" element = {<Post/>}/>

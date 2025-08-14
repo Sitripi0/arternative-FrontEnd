@@ -7,15 +7,17 @@ function CreatePost() {
   const navigate = useNavigate();
   const { user, isLoggedIn, API_URL } = useContext(AuthContext);
 
+  // Get today's date in YYYY-MM-DD format for min attribute and validation
+  const today = new Date().toISOString().split("T")[0];
+
   const [form, setForm] = useState({
     title: "",
-    text:"",
+    text: "",
     typeOfPost: "",
     category: "",
     mediaUrl: "",
     location: "",
     date: ""
-   
   });
 
   const handleChange = (e) => {
@@ -25,6 +27,12 @@ function CreatePost() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate date not earlier than today
+    if (form.date && form.date < today) {
+      alert("Please select today's date or a future date.");
+      return;
+    }
 
     const storedToken = localStorage.getItem("authToken");
 
@@ -139,6 +147,7 @@ function CreatePost() {
             type="date"
             name="date"
             value={form.date}
+            min={today} // restrict date to today or later
             onChange={handleChange}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
           />

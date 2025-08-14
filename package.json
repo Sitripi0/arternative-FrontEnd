@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@preline/file-upload": "^3.2.3",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
+    "dropzone": "^6.0.0-beta.2",
+    "lodash": "^4.17.21",
     "preline": "^3.2.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

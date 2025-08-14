@@ -66,7 +66,7 @@ function EditPost() {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then(() => {
-        navigate(`/posts/${id}`); // fixed navigation to post details page
+        navigate(`/api/posts/${id}`); // fixed navigation to post details page
       })
       .catch((err) => {
         console.error("Error updating post:", err);

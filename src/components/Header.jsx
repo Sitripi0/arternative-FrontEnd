@@ -35,13 +35,13 @@ const Header = () => {
               Create a Post
             </Link>
           )}
-
+          {/* 
           <Link
             to="/posts"
             className="text-sm hover:text-amber-600 transition"
           >
             Posts
-          </Link>
+          </Link> */}
 
           {isLoggedIn && (
             <Link
@@ -59,12 +59,12 @@ const Header = () => {
             Events
           </Link>
 
-          <Link
+          {/* <Link
             to="/artist"
             className="text-sm hover:text-amber-600 transition"
           >
             Artists
-          </Link>
+          </Link> */}
 
           {isLoggedIn ? (
             <button
