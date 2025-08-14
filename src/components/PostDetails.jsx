@@ -1,13 +1,14 @@
-import { useParams, Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { useParams, Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import DeletePost from "./DeletePost";
 import CommentSection from "./CreateComments";
 
 function PostDetails() {
-  const { id } = useParams(); // post ID from URL
+  const { id } = useParams();
   const { API_URL, user, isLoggedIn } = useContext(AuthContext);
+
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,12 +28,7 @@ function PostDetails() {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!post) return <p className="text-center mt-10">Post not found.</p>;
 
-  // Determine if the logged-in user is the owner of the post
-  const authorId = post.authorId?._id || post.authorId;
-  const isOwner = isLoggedIn && user && user._id === authorId;
-
-  // Get author's username safely (fallback if undefined)
-  const authorName = post.authorId?.username || post.authorId?.name || "Unknown User";
+  const isOwner = isLoggedIn && user && user._id === post.user?._id;
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -55,7 +51,7 @@ function PostDetails() {
         <h1 className="text-3xl font-bold text-gray-800 mb-2">{post.title}</h1>
 
         <p className="text-sm text-gray-600 mb-4">
-          By <span className="font-semibold">{authorName}</span>
+          By <span className="font-semibold">{post.user?.name || "Unknown User"}</span>
         </p>
 
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
@@ -72,9 +68,7 @@ function PostDetails() {
         )}
 
         {post.location && (
-          <p className="text-sm text-gray-400 mb-4">
-            📍 {post.location}
-          </p>
+          <p className="text-sm text-gray-400 mb-4">📍 {post.location}</p>
         )}
 
         <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">

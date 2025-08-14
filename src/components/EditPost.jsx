@@ -94,7 +94,7 @@ function EditPost() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
+          <label className="block text-sm font-medium text-gray-700">Description*</label>
           <textarea
             name="text"
             value={formData.text}
@@ -108,7 +108,7 @@ function EditPost() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Post Type</label>
+            <label className="block text-sm font-medium text-gray-700">Post Type*</label>
             <select
               name="typeOfPost"
               value={formData.typeOfPost}
@@ -122,7 +122,7 @@ function EditPost() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
+            <label className="block text-sm font-medium text-gray-700">Category*</label>
             <select
               name="category"
               value={formData.category}
@@ -165,7 +165,7 @@ function EditPost() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Date</label>
+          <label className="block text-sm font-medium text-gray-700">Date*</label>
           <input
             type="date"
             name="date"
