@@ -28,9 +28,11 @@ function PostDetails() {
   if (!post) return <p className="text-center mt-10">Post not found.</p>;
 
   // Determine if the logged-in user is the owner of the post
-  // post.authorId might be populated or just an ID string — normalize both to string for safe compare
   const authorId = post.authorId?._id || post.authorId;
   const isOwner = isLoggedIn && user && user._id === authorId;
+
+  // Get author's username safely (fallback if undefined)
+  const authorName = post.authorId?.username || post.authorId?.name || "Unknown User";
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -50,26 +52,35 @@ function PostDetails() {
           />
         )}
 
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">{post.title}</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">{post.title}</h1>
+
+        <p className="text-sm text-gray-600 mb-4">
+          By <span className="font-semibold">{authorName}</span>
+        </p>
 
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <span className="capitalize bg-amber-100 text-amber-700 px-2 py-0.5 rounded">
             {post.typeOfPost || "N/A"}
           </span>
-          <span className="capitalize">{post.category}</span>
+          <span className="capitalize">{post.category || "N/A"}</span>
         </div>
 
         {post.date && (
           <p className="text-sm text-gray-400 mb-4">
-            {new Date(post.date).toLocaleDateString()}
+            📅 {new Date(post.date).toLocaleDateString()}
           </p>
         )}
 
-        <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+        {post.location && (
+          <p className="text-sm text-gray-400 mb-4">
+            📍 {post.location}
+          </p>
+        )}
+
+        <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">
           {post.text}
         </p>
 
-        {/* Show Edit and Delete buttons only if user is owner */}
         {isOwner && (
           <>
             <DeletePost />

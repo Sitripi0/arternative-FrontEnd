@@ -66,7 +66,7 @@ function CreatePost() {
             onChange={handleChange}
             required
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
-            placeholder="Título del post"
+            placeholder="Post Title"
           />
         </div>
 
@@ -106,11 +106,11 @@ function CreatePost() {
               onChange={handleChange}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
             >
+              <option value="other">Other</option>
               <option value="music">Music</option>
               <option value="visual">Visual</option>
               <option value="esculpture">Esculpture</option>
               <option value="performance">Performance</option>
-              <option value="other">Other</option>
             </select>
           </div>
         </div>
@@ -136,7 +136,7 @@ function CreatePost() {
               value={form.location}
               onChange={handleChange}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
-              placeholder="Ciudad, País"
+              placeholder="City,Country"
             />
           </div>
         </div>
@@ -147,7 +147,7 @@ function CreatePost() {
             type="date"
             name="date"
             value={form.date}
-            min={today} // restrict date to today or later
+            min={today} 
             onChange={handleChange}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
           />
