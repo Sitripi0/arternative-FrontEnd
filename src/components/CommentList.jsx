@@ -1,4 +1,3 @@
-// components/CommentList.js
 function CommentList({ comments, currentUserId, isLoggedIn, onDelete }) {
   if (!comments.length) return <p>No comments yet.</p>;
 
@@ -9,7 +8,7 @@ function CommentList({ comments, currentUserId, isLoggedIn, onDelete }) {
           <p className="text-gray-700">{comment.text}</p>
           <div className="text-sm text-gray-500 mt-2 flex justify-between items-center">
             <span>
-              By: <span className="font-semibold">{comment.user?.username || "User"}</span>
+              By: <span className="font-semibold">{comment.user?.name || "User"}</span>
             </span>
 
             {isLoggedIn && currentUserId === comment.user?._id && (
